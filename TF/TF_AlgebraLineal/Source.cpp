@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <time.h>
 using namespace std;
 
 int** ingreso_Data(int &n, int &m) {
@@ -10,8 +10,10 @@ int** ingreso_Data(int &n, int &m) {
 		cin >> n;
 	} while (n > 8 || n < 3);
 
-	cout << "Ingrese la cantidad de vectores con los que desea trabajar: " << endl;
-	cin >> m;
+	do{
+		cout << "Ingrese la cantidad de vectores con los que desea trabajar (entre 3 y 8): " << endl;
+		cin >> m;
+	} while (n > 8 || n < 3);
 
 	vecs = new int*[m];
 
@@ -28,37 +30,59 @@ int** ingreso_Data(int &n, int &m) {
 	return vecs;
 }
 
-int** random_Data(int n, int m) {
+int** random_Data(int &n, int &m) {
 	int** vecs;
+	srand(time(NULL));
+	n = rand() % 8 + 3;
+	m = rand() % 8 + 3;
+
+	vecs = new int* [m];
+
+	for (int i = 0; i < m; i++) {
+		int* aux = new int[n];
+		for (char e = 0; e < n; e++) {
+			aux[e] = rand() % 9 + 0;
+		};
+		vecs[i] = aux;
+	};
+
 	return vecs;
 }
 
-
-int main() {
-	//Dimension en la que estamos trabajando
-	int n;
-	//Cantidad de vectores
-	int m;
-	int** vecs;
-
+int** data(int &n,int &m) {
 	int des;
 	cout << "Desea que los vectores se generen aleatoriamente (1) o desea ingresar la data (2): " << endl;
 	cin >> des;
-	
+
 	if (des == 2) {
-		vecs = ingreso_Data(n, m);
+		return ingreso_Data(n, m);
 	}
 	else {
 		//vecs salen de una funcion aleatoria
-		vecs = random_Data(n, m);
-
+		return random_Data(n, m);
 	}
+}
+
+int main() {
+	//Dimension en la que estamos trabajando
+	int n = 0;
+	//Cantidad de vectores
+	int m = 0;
+	int** vecs;
+		
+
+	vecs = data(n, m);
 
 
+	cout <<"n: " << n << " m: " << m << endl;
+	
+
+	
 	for (int i = 0; i < m; i++) {
 		for (int e = 0; e < n; e++) {
-			cout << vecs[i][e];
+			cout << vecs[i][e] << " " ;
 		}
+		cout << endl;
 	}
 
 	return 0;
